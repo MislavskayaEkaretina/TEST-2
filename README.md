@@ -22,6 +22,8 @@ namespace ConsoleApp8
             Console.WriteLine(program.Task_2(4, 6, 22));
             var M = new int[,] { { 23, 7, -13, 24, -21, 18 }, { 2, 0, 12, -16, -20, -17 }, { 22, 21, -6, 19, -22, -4 }, { -13, 13, 18, -15, -20, -2 }, { 3, 7, 1, -20, 22, -8 }, { -22, -11, 13, -2, 0, -14 } };
             program.Task_3(M);
+            var A = new int[] { 17, 17, 2, -10, -1, -20 };
+            program.Task_4(ref A);
             // Task_3:
             // Input:
             /*   23,   7, -13,  24, -21,  18, 
@@ -115,7 +117,7 @@ namespace ConsoleApp8
         }
         public void Task_3(int[,] M)
         {
-            int n = M.GetLength(0); 
+            int n = M.GetLength(0);
             int m = M.GetLength(1);
             if (n == 0 || m != n || M == null)
             {
@@ -145,7 +147,7 @@ namespace ConsoleApp8
                 {
                     for (int j = 0; j < n; j++)
                     {
-                        Console.Write(newM[i, j] + "\t"); 
+                        Console.Write(newM[i, j] + "\t");
                     }
                     Console.WriteLine();
                 }
@@ -155,9 +157,65 @@ namespace ConsoleApp8
         }
         public void Task_4(ref int[] A)
         {
+            if (A == null || A.Length == 0) 
+            {
+                Console.WriteLine("ошибка"); 
+            }
+            int n = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i]<0)
+                {
+                    n++;
+                }
+            }
+            if (n == 0)
+            {
+                Console.WriteLine("ошибка");
+            }
+            int[] negativeList = new int[n];
+            int m = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                if (A[i] < 0)
+                {
+                    negativeList[m] = A[i];
+                    m++;
+                }
+            }
+            int[] shiftedNegativeElements = GetNegativeSubArray(negativeList, 10);
+
+            Console.WriteLine(shiftedNegativeElements);
+            A = shiftedNegativeElements;
+            for (int i = 0; i< A.Length; i++)
+            {
+                Console.WriteLine(A[i]);
+                Console.WriteLine(" ");
+            }
 
         }
-        public int[] GetNegativeSubArray(int[] array) { return default(int[]); }
+        public static int[] GetNegativeSubArray(int[] arr, int shiftAmount)
+        {
+            if (arr == null || arr.Length == 0)
+            {
+                return arr;
+            }
+
+            int n = arr.Length;
+            shiftAmount = shiftAmount % n;
+
+            if (shiftAmount < 0)
+            {
+                shiftAmount = n + shiftAmount;
+            }
+
+            int[] shiftedArray = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                shiftedArray[(i + shiftAmount) % n] = arr[i];
+            }
+            return shiftedArray;
+        }
         public void Task_5(ref int[,] M, ref int[] A, SortArray Op)
         {
 
